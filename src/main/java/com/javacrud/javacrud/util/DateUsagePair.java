@@ -1,22 +1,22 @@
 package com.javacrud.javacrud.util;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class DateUsagePair {
-    private LocalDate date;
+    private Date date;
     private Number usedInMb;
 
     // Constructor
-    public DateUsagePair(LocalDate date, Number usedInMb) {
+    public DateUsagePair(Date date, Number usedInMb) {
         this.date = date;
         this.usedInMb = usedInMb;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

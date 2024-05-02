@@ -1,27 +1,35 @@
 package com.javacrud.javacrud.documents;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import org.springframework.data.mongodb.core.mapping.Sharded;
 
 @Document(collection = "daily_usage")
+@Sharded(shardKey = { "userId", "mdn" })
 public class DailyUsage {
     
     @Id
     private String id;
     private String mdn;
     private String userId;
-    private LocalDate usageDate;
+    private Date usageDate;
     private Number usedInMb;
+    private String nextCycleId;
+
+    @DocumentReference
+    private Cycle cycle;
 
     // Constructor
-    public DailyUsage(String mdn, String userId, LocalDate usageDate, Number usedInMb) {
+    public DailyUsage(String mdn, String userId, Date usageDate, Number usedInMb, String nextCycleId, Cycle cycle) {
         this.mdn = mdn;
         this.userId = userId;
         this.usageDate = usageDate;
         this.usedInMb = usedInMb;
+        this.nextCycleId = nextCycleId;
+        this.cycle = cycle;
     }
 
     public String getId() {
@@ -44,11 +52,19 @@ public class DailyUsage {
         this.userId = userId;
     }
 
-    public LocalDate getUsageDate() {
+    public void setNextCycleId(String nextCycleId) {
+        this.nextCycleId = nextCycleId;
+    }
+
+    public String getNextCycleId() {
+        return this.nextCycleId;
+    }
+
+    public Date getUsageDate() {
         return this.usageDate;
     }
 
-    public void setUsageDate(LocalDate usageDate) {
+    public void setUsageDate(Date usageDate) {
         this.usageDate = usageDate;
     }
 
@@ -56,7 +72,15 @@ public class DailyUsage {
         return this.usedInMb;
     }
 
-    public void setName(Number usedInMb) {
+    public void setUsedInMb(Number usedInMb) {
         this.usedInMb = usedInMb;
+    }
+
+    public void setCycle(Cycle cycle) {
+        this.cycle = cycle;
+    }
+
+    public Cycle getCycle() {
+        return this.cycle;
     }
 }

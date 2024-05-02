@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.javacrud.javacrud.documents.Cycle;
 import com.javacrud.javacrud.documents.DailyUsage;
 import com.javacrud.javacrud.services.DailyUsageService;
 
@@ -18,11 +17,11 @@ public class DailyUsageController {
         this.dailyUsageService = dailyUsageService;
     }
 
-    @PostMapping
+    @PutMapping
     public DailyUsage createDailyUsage(@RequestBody DailyUsage dailyUsage) {
-        return dailyUsageService.create(dailyUsage);
+        return dailyUsageService.createOrUpdate(dailyUsage);
     }
-    
+
     @GetMapping
     public List<DailyUsage> getDailyUsages() {
         return dailyUsageService.list();

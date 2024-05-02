@@ -9,5 +9,4 @@ class JavacrudApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

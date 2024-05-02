@@ -1,14 +1,14 @@
 package com.javacrud.javacrud.util;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class CycleHistory {
     private String id;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
 
     // Constructor
-    public CycleHistory(String id, LocalDate startDate, LocalDate endDate) {
+    public CycleHistory(String id, Date startDate, Date endDate) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -25,22 +25,22 @@ public class CycleHistory {
     }
 
     // Getter for startDate
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
     // Setter for startDate
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     // Getter for endDate
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
     // Setter for endDate
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 }

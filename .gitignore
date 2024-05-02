@@ -43,3 +43,6 @@ flattened-pom.xml
 secrets.yml
 gradletasknamecache
 .git-hooks/
+
+# Logs
+mobileCarier.log*
