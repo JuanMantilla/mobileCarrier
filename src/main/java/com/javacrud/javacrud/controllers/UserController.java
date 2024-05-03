@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.javacrud.javacrud.documents.User;
 import com.javacrud.javacrud.services.UserService;
-import com.javacrud.javacrud.util.UserResponse;
+import com.javacrud.javacrud.util.UserDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,41 +28,34 @@ public class UserController {
     }
 
     @PostMapping
-    public UserResponse createUser(@RequestBody User user) {
+    public UserDTO createUser(@RequestBody User user) {
         this.userService.create(user);
-        return new UserResponse(
-            user.getId(),
-            user.getFirstName(),
-            user.getLastName(),
-            user.getEmail()
-        );
+        return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
     }
 
     @GetMapping("/{userId}")
-    public UserResponse getUser(@PathVariable String userId) {
+    public UserDTO getUser(@PathVariable String userId) {
         User user = this.userService.get(userId);
-        
-        return new UserResponse(
-            user.getId(),
-            user.getFirstName(),
-            user.getLastName(),
-            user.getEmail()
-        );
+
+        return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
     }
 
     @GetMapping
-    public List<UserResponse> getUsers() {
+    public List<UserDTO> getUsers() {
         List<User> users = this.userService.list();
-        List<UserResponse> payload = new ArrayList<>();
+        List<UserDTO> payload = new ArrayList<>();
         for (User user : users) {
-            UserResponse userResponse = new UserResponse(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail()
-            );
+            UserDTO userResponse = new UserDTO(user.getId(), user.getFirstName(),
+                    user.getLastName(), user.getEmail());
             payload.add(userResponse);
         }
         return payload;
-    }  
+    }
+
+    @PatchMapping(value = "/{userId}")
+    public UserDTO updateUser(@PathVariable String userId, @RequestBody UserDTO userDto) {
+        User response = userService.updateUser(userId, userDto);
+        return new UserDTO(response.getId(), response.getFirstName(), response.getLastName(),
+                response.getEmail());
+    }
 }

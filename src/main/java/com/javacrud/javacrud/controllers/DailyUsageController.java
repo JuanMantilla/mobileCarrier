@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.javacrud.javacrud.documents.DailyUsage;
 import com.javacrud.javacrud.services.DailyUsageService;
+import com.javacrud.javacrud.util.DailyUsageDTO;
 
 @RestController
 @RequestMapping("/daily-usage")
@@ -18,8 +19,15 @@ public class DailyUsageController {
     }
 
     @PutMapping
-    public DailyUsage createDailyUsage(@RequestBody DailyUsage dailyUsage) {
-        return dailyUsageService.createOrUpdate(dailyUsage);
+    public DailyUsageDTO createDailyUsage(@RequestBody DailyUsageDTO dailyUsage) {
+        DailyUsage createdDailyUsage = dailyUsageService.createOrUpdate(dailyUsage);
+        return new DailyUsageDTO(
+            createdDailyUsage.getMdn(),
+            createdDailyUsage.getUserId(),
+            createdDailyUsage.getUsageDate(),
+            createdDailyUsage.getUsedInMb(),
+            createdDailyUsage.getNextCycleId()
+        );
     }
 
     @GetMapping

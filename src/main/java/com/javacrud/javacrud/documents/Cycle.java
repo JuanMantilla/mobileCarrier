@@ -28,6 +28,10 @@ public class Cycle {
         return id;
     }
 
+    public String setId(String id) {
+        return this.id = id;
+    }
+
     // Setter for mdn
     public void setMdn(String mdn) {
         this.mdn = mdn;

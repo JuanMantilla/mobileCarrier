@@ -15,12 +15,15 @@ import com.javacrud.javacrud.repositories.CycleRepository;
 import com.javacrud.javacrud.repositories.DailyUsageRepository;
 import com.javacrud.javacrud.repositories.UserRepository;
 import com.javacrud.javacrud.util.DateManilpulation;
+import com.javacrud.javacrud.util.UserDTO;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+
     private final CycleRepository cycleRepository;
+
     private final DailyUsageRepository dailyUsageRepository;
 
     public UserService(UserRepository userRepository, CycleRepository cycleRepository, DailyUsageRepository dailyUsageRepository) {
@@ -74,15 +77,15 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public User updateUser(User user) {
+    public User updateUser(String userId, UserDTO user) {
         try {
-            User userDoc = userRepository.findById(user.getId()).get();
+            User userDoc = userRepository.findById(userId).get();
             userDoc.setFirstName(user.getFirstName());
             userDoc.setLastName(user.getLastName());
             userDoc.setEmail(user.getEmail());
             return this.userRepository.save(userDoc);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with ID " + user.getId() + " does not exist.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with ID " + userId + " does not exist.");
         }
     }
 }

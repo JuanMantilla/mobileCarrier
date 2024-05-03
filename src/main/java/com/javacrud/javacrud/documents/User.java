@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Sharded;
 
 
 @Document(collection = "user")
-@Sharded(shardKey = { "id", "aisuygdhiaushdaisudhasiuhd" })
+@Sharded(shardKey = { "id" })
 public class User {
 
     @Id
@@ -28,6 +28,9 @@ public class User {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getFirstName() {
         return this.firstName;
     }

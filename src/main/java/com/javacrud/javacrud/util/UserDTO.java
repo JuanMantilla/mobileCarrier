@@ -1,12 +1,12 @@
 package com.javacrud.javacrud.util;
 
-public class UserResponse {
+public class UserDTO {
     private String id;
     private String firstName;
     private String lastName;
     private String email;
 
-    public UserResponse(String id, String firstName, String lastName, String email) {
+    public UserDTO(String id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
