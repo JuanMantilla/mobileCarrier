@@ -44,9 +44,8 @@ class DailyUsageServiceTest {
                 // Mocking dependencies
                 Date today = MockedObjects.getCurrentDate();
                 Date yesterday = MockedObjects.addDaysToDate(today, -1);
-                Date cycleEndDate = MockedObjects.addMonthToDate(today, 1);
                 User mockedUser = MockedObjects.getMockUser();
-                Cycle currentCycle = MockedObjects.getMockedCycle(today, cycleEndDate,
+                Cycle currentCycle = MockedObjects.getMockedCycle(today,
                                 mockedUser.getId());
                 DailyUsageDTO dailyUsageDTO = MockedObjects
                                 .getMockedDailyUsageDTO(mockedUser.getId(), today, 100, null);
@@ -75,10 +74,9 @@ class DailyUsageServiceTest {
         void testCreateOrUpdate_ValidDailyUsageAddUsage() {
                 // Mocking dependencies
                 Date today = MockedObjects.getCurrentDate();
-                Date cycleEndDate = MockedObjects.addMonthToDate(today, 1);
 
                 User mockedUser = MockedObjects.getMockUser();
-                Cycle currentCycle = MockedObjects.getMockedCycle(today, cycleEndDate,
+                Cycle currentCycle = MockedObjects.getMockedCycle(today,
                                 mockedUser.getId());
                 DailyUsageDTO dailyUsageDTO = MockedObjects
                                 .getMockedDailyUsageDTO(mockedUser.getId(), today, 100, null);
@@ -102,15 +100,13 @@ class DailyUsageServiceTest {
         void testCreateOrUpdate_ValidDailyUsageLastDayOfCycle() {
                 // Mocking dependencies
                 Date today = MockedObjects.getCurrentDate();
-                Date currentCycleEndDate = MockedObjects.addMonthToDate(today, 1);
-                Date nextCycleStartDate = currentCycleEndDate;
-                Date nextCycleEndDate = MockedObjects.addMonthToDate(nextCycleStartDate, 1);
+                
 
                 User mockedUser = MockedObjects.getMockUser();
 
-                Cycle currentCycle = MockedObjects.getMockedCycle(today, currentCycleEndDate,
+                Cycle currentCycle = MockedObjects.getMockedCycle(today,
                                 mockedUser.getId());
-                Cycle nextCycle = MockedObjects.getMockedCycle(nextCycleStartDate, nextCycleEndDate,
+                Cycle nextCycle = MockedObjects.getMockedCycle( new Date(currentCycle.getEndDate().getTime() + 1),
                                 mockedUser.getId());
                 DailyUsageDTO dailyUsageDTO = MockedObjects
                                 .getMockedDailyUsageDTO(mockedUser.getId(), currentCycle.getEndDate(), 100, null);

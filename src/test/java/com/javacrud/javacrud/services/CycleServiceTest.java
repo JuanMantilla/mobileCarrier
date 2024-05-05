@@ -46,10 +46,8 @@ public class CycleServiceTest {
     public void testCreate() {
         // Mocking dependencies
         Date today = MockedObjects.getCurrentDate();
-        Date cycleEndDate = MockedObjects.addMonthToDate(today,1);
-
         User mockedUser = MockedObjects.getMockUser();
-        Cycle currentCycle = MockedObjects.getMockedCycle(today, cycleEndDate, mockedUser.getId());
+        Cycle currentCycle = MockedObjects.getMockedCycle(today, mockedUser.getId());
 
         when(userRepository.existsById(currentCycle.getUserId())).thenReturn(true);
         when(cycleRepository.save(currentCycle)).thenReturn(currentCycle);
@@ -63,11 +61,10 @@ public class CycleServiceTest {
         Date cycleEndDate = MockedObjects.addMonthToDate(today,1);
 
         Date newCycleStartDate = cycleEndDate;
-        Date newCycleEndDate = MockedObjects.addMonthToDate(newCycleStartDate, 1);
 
         User mockedUser = MockedObjects.getMockUser();
-        Cycle cycle1 = MockedObjects.getMockedCycle(today, cycleEndDate, mockedUser.getId());
-        Cycle cycle2 = MockedObjects.getMockedCycle(newCycleStartDate, newCycleEndDate,
+        Cycle cycle1 = MockedObjects.getMockedCycle(today, mockedUser.getId());
+        Cycle cycle2 = MockedObjects.getMockedCycle(newCycleStartDate,
                 mockedUser.getId());
         List<Cycle> cycles = Arrays.asList(cycle1, cycle2);
 
@@ -79,15 +76,17 @@ public class CycleServiceTest {
     public void testGetLastCycleForUserAndMdn() {
         // Mocking dependencies
         Date today = MockedObjects.getCurrentDate();
-        Date cycleEndDate = MockedObjects.addMonthToDate(today,1);
 
         User mockedUser = MockedObjects.getMockUser();
-        Cycle cycle = MockedObjects.getMockedCycle(today, cycleEndDate, mockedUser.getId());
+        Cycle cycle = MockedObjects.getMockedCycle(today, mockedUser.getId());
         Query lastCycleQuery = new Query();
-
+        System.out.println(today);
+        System.out.println(today);
+        System.out.println(today);
+        System.out.println(today);
         lastCycleQuery.addCriteria(Criteria.where("userId").is(mockedUser.getId()).and("startDate")
                 .lte(today).and("mdn").is(cycle.getMdn()));
-        lastCycleQuery.with(Sort.by(Sort.Direction.ASC, "startDate"));
+        lastCycleQuery.with(Sort.by(Sort.Direction.DESC, "endDate"));
 
         when(userRepository.findById(mockedUser.getId()))
                 .thenReturn(java.util.Optional.of(mockedUser));
@@ -102,11 +101,10 @@ public class CycleServiceTest {
     public void testGetCurrentCycleDailyUsage() {
         // Mocking dependencies
         Date today = MockedObjects.getCurrentDate();
-        Date cycleEndDate = MockedObjects.addMonthToDate(today,1);
         Date tomorrow = MockedObjects.addDaysToDate(today, 1);
 
         User mockedUser = MockedObjects.getMockUser();
-        Cycle cycle = MockedObjects.getMockedCycle(today, cycleEndDate, mockedUser.getId());
+        Cycle cycle = MockedObjects.getMockedCycle(today, mockedUser.getId());
         Query dailyUsagesQuery = new Query();
         DailyUsage dailyUsage1 =
                 MockedObjects.getMockedDailyUsage(mockedUser.getId(), today, 100, null, cycle);
@@ -133,11 +131,10 @@ public class CycleServiceTest {
     public void testGetCurrentCycleDailyUsageNoCurrentCycle() {
         // Mocking dependencies
         Date today = MockedObjects.getCurrentDate();
-        Date cycleEndDate = MockedObjects.addMonthToDate(today,1);
         Date tomorrow = MockedObjects.addDaysToDate(today, 1);
 
         User mockedUser = MockedObjects.getMockUser();
-        Cycle cycle = MockedObjects.getMockedCycle(tomorrow, cycleEndDate, mockedUser.getId());
+        Cycle cycle = MockedObjects.getMockedCycle(tomorrow, mockedUser.getId());
         Query dailyUsagesQuery = new Query();
 
         // Query to find daily usages within the current cycle
@@ -153,15 +150,4 @@ public class CycleServiceTest {
 
         assertEquals(new ArrayList<>(), result);
     }
-
-    // @Test
-    // public void testGetCycleHistory() {
-    // String userId = "user1";
-    // String mdn = "mdn1";
-    // Cycle cycle1 = new Cycle();
-    // Cycle cycle2 = new Cycle();
-    // List<Cycle> cycles = Arrays.asList(cycle1, cycle2);
-    // when(cycleRepository.findByUserIdAndMdn(userId, mdn)).thenReturn(cycles);
-    // assertEquals(cycles, cycleService.getCycleHistory(userId, mdn));
-    // }
 }

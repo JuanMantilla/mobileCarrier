@@ -16,7 +16,7 @@ public class MockedObjects {
     }
 
     public static Date getCurrentDate() {
-        return DateManilpulation.resetTimeToMidnight(new Date());
+        return DateManilpulation.resetTimeToMidnight(DateManilpulation.adjustTimezone(new Date()));
     }
 
     public static Date addMonthToDate(Date date, int months) {
@@ -31,8 +31,8 @@ public class MockedObjects {
         return "123456789";
     }
 
-    public static Cycle getMockedCycle(Date startDate, Date endDate, String userId) {
-        Cycle mockedCycle = new Cycle(MockedObjects.generateMockedMdn(), startDate, endDate, userId);
+    public static Cycle getMockedCycle(Date startDate, String userId) {
+        Cycle mockedCycle = new Cycle(MockedObjects.generateMockedMdn(), startDate, userId);
         mockedCycle.setId("123456789");
         return mockedCycle;
     }

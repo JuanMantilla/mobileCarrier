@@ -1,6 +1,5 @@
 package com.javacrud.javacrud.services;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,19 +41,15 @@ public class UserService {
         // TODO: In a production environment, replace this random MDN generation with a proper pool mechanism.
         String mdn = Long.toString((long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L);
         User newUser = this.userRepository.save(user);
-        Date currentDate = new Date();
+        Date currentDate = DateManilpulation.resetTimeToMidnight(
+                    DateManilpulation.adjustTimezone(new Date()));
 
-        Calendar c = Calendar.getInstance();
-        c.setTime(currentDate);
-        c.add(Calendar.DATE, 30);
-
-        Date startDate = DateManilpulation.resetTimeToMidnight(new Date());
-        Date endDate = DateManilpulation.resetTimeToMidnight(c.getTime());
+        Date startDate = DateManilpulation.resetTimeToMidnight(currentDate);
+        
 
         Cycle newCycle = new Cycle(
             mdn,
             startDate,
-            endDate,
             newUser.getId()
         );
 

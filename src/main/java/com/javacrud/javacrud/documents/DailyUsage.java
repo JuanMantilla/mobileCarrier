@@ -1,11 +1,11 @@
 package com.javacrud.javacrud.documents;
 
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Sharded;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Document(collection = "daily_usage")
 @Sharded(shardKey = { "userId", "mdn" })
@@ -15,11 +15,12 @@ public class DailyUsage {
     private String id;
     private String mdn;
     private String userId;
-    private Date usageDate;
     private Number usedInMb;
     private String nextCycleId;
 
-    @Autowired
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date usageDate;
+
     @DocumentReference
     private Cycle cycle;
 

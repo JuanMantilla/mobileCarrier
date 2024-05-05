@@ -29,6 +29,14 @@ public class DateManilpulation {
         return calendar.getTime();
     }
 
+    public static int daysBetweenDates(Date startDate, Date endDate) {
+        Calendar start = Calendar.getInstance();
+        start.setTime(startDate);
+        Calendar end = Calendar.getInstance();
+        end.setTime(endDate);
+        return (int) ((end.getTimeInMillis() - start.getTimeInMillis()) / (1000 * 60 * 60 * 24));
+    }
+
     public static Date adjustTimezone(Date date) {
         // Set the desired output timezone, e.g., UTC
         TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
@@ -41,5 +49,11 @@ public class DateManilpulation {
         
         // Adjust the time by the offset
         return new Date(date.getTime() + offset);
+    }
+
+    public static int daysUntilEndOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH);
     }
 }

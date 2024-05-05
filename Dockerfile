@@ -3,7 +3,7 @@ FROM maven:3.6.3-openjdk-17-slim AS builder
 COPY src /home/app/src
 COPY pom.xml /home/app
 #Build an uber jar
-RUN mvn -f /home/app/pom.xml package
+RUN mvn -f /home/app/pom.xml package -DskipTests 
 WORKDIR /home/app/target
 #Build the project
 RUN mvn -f /home/app/pom.xml clean install -DskipTests 

@@ -61,18 +61,18 @@ public class CycleService {
                     "User with ID " + userId + " does not exist.");
         }
 
-        Date currentDate = DateManilpulation.resetTimeToMidnight(new Date());
+        Date currentDate = (DateManilpulation.resetTimeToMidnight(new Date()));
+        logger.info("Getting last cycle for user ID [{}] and mdn [{}] for [{}]", userId, mdn, currentDate);
         Query lastCycleQuery = new Query();
 
         // Query to find the most current billing cycle
         lastCycleQuery.addCriteria(Criteria.where("userId").is(userId).and("startDate")
                 .lte(currentDate).and("mdn").is(mdn));
 
-        lastCycleQuery.with(Sort.by(Sort.Direction.ASC, "startDate"));
+        lastCycleQuery.with(Sort.by(Sort.Direction.DESC, "endDate"));
 
         // Retrieve the current billing cycle
-        Cycle lastCycle = this.mongoTemplate.findOne(lastCycleQuery, Cycle.class);
-        return lastCycle;
+        return this.mongoTemplate.findOne(lastCycleQuery, Cycle.class);
     }
 
     /**
@@ -94,7 +94,6 @@ public class CycleService {
 
         Cycle mostRecentCycle = this.getLastCycleForUserAndMdn(userId, mdn);
         Date currentDate = new Date();
-
         if (mostRecentCycle == null || mostRecentCycle.getStartDate().after(currentDate)
                 || mostRecentCycle.getEndDate().before(currentDate)) {
             logger.info("Didn't find a current cycle for user [{}] and mdn [{}]", userId, mdn);
