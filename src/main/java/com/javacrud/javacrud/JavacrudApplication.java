@@ -12,11 +12,11 @@ import jakarta.annotation.PostConstruct;
 @ComponentScan(basePackages = "com.javacrud.javacrud")
 public class JavacrudApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(JavacrudApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(JavacrudApplication.class, args);
+    }
 
-	@PostConstruct
+    @PostConstruct
     public void init() {
         // Set Spring Boot TimeZone to UTC
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
