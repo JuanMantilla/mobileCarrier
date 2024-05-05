@@ -1,13 +1,13 @@
-package com.javacrud.javacrud.util;
+package com.javacrud.javacrud.DTOs;
 
 import java.util.Date;
 
-public class DateUsagePair {
+public class DateUsagePairDTO {
     private Date date;
     private Number usedInMb;
 
     // Constructor
-    public DateUsagePair(Date date, Number usedInMb) {
+    public DateUsagePairDTO(Date date, Number usedInMb) {
         this.date = date;
         this.usedInMb = usedInMb;
     }

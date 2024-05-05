@@ -3,10 +3,9 @@ package com.javacrud.javacrud.controllers;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
-
+import com.javacrud.javacrud.DTOs.DailyUsageDTO;
 import com.javacrud.javacrud.documents.DailyUsage;
 import com.javacrud.javacrud.services.DailyUsageService;
-import com.javacrud.javacrud.util.DailyUsageDTO;
 
 @RestController
 @RequestMapping("/daily-usage")

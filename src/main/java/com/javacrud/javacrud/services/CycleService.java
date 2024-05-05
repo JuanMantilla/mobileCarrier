@@ -1,5 +1,6 @@
 package com.javacrud.javacrud.services;
 
+import com.javacrud.javacrud.DTOs.CycleHistoryDTO;
 import com.javacrud.javacrud.documents.Cycle;
 import com.javacrud.javacrud.documents.DailyUsage;
 
@@ -17,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.javacrud.javacrud.repositories.CycleRepository;
 import com.javacrud.javacrud.repositories.UserRepository;
-import com.javacrud.javacrud.util.CycleHistory;
 import com.javacrud.javacrud.util.DateManilpulation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,12 +116,12 @@ public class CycleService {
         return dailyUsages;
     }
 
-    public List<CycleHistory> getCycleHistory(String userId, String mdn) {
+    public List<CycleHistoryDTO> getCycleHistory(String userId, String mdn) {
         List<Cycle> cycles = this.cycleRepository.findByUserIdAndMdn(userId, mdn);
-        List<CycleHistory> payload = new ArrayList<>();
+        List<CycleHistoryDTO> payload = new ArrayList<>();
         for (Cycle cycle : cycles) {
-            CycleHistory cycleHistory =
-                    new CycleHistory(cycle.getId(), cycle.getStartDate(), cycle.getEndDate());
+            CycleHistoryDTO cycleHistory =
+                    new CycleHistoryDTO(cycle.getId(), cycle.getStartDate(), cycle.getEndDate());
             payload.add(cycleHistory);
         }
         return payload;

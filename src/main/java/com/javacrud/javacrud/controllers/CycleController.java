@@ -2,13 +2,11 @@ package com.javacrud.javacrud.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.javacrud.javacrud.DTOs.CycleHistoryDTO;
+import com.javacrud.javacrud.DTOs.DateUsagePairDTO;
 import com.javacrud.javacrud.documents.Cycle;
 import com.javacrud.javacrud.documents.DailyUsage;
 import com.javacrud.javacrud.services.CycleService;
-import com.javacrud.javacrud.util.CycleHistory;
-import com.javacrud.javacrud.util.DateUsagePair;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,19 +37,19 @@ public class CycleController {
     }
 
     @GetMapping("/{userId}/{mdn}")
-    public List<DateUsagePair> getCurrentCycleDailyUsage(@PathVariable String userId, @PathVariable String mdn) {
+    public List<DateUsagePairDTO> getCurrentCycleDailyUsage(@PathVariable String userId, @PathVariable String mdn) {
         List<DailyUsage> dailyUsages= cycleService.getCurrentCycleDailyUsage(userId, mdn);
         // Convert daily usage data to DateUsagePair objects
-         List<DateUsagePair> payload = new ArrayList<>();
+         List<DateUsagePairDTO> payload = new ArrayList<>();
         for (DailyUsage dailyUsage : dailyUsages) {
-            DateUsagePair dateUsage = new DateUsagePair(dailyUsage.getUsageDate(), dailyUsage.getUsedInMb());
+            DateUsagePairDTO dateUsage = new DateUsagePairDTO(dailyUsage.getUsageDate(), dailyUsage.getUsedInMb());
             payload.add(dateUsage);
         }
         return payload;
     }
 
     @GetMapping("/history/{userId}/{mdn}")
-    public List<CycleHistory> getCycleHistory(@PathVariable String userId, @PathVariable String mdn) {
+    public List<CycleHistoryDTO> getCycleHistory(@PathVariable String userId, @PathVariable String mdn) {
         return cycleService.getCycleHistory(userId, mdn);
     }
     

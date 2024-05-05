@@ -11,13 +11,12 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
+import com.javacrud.javacrud.DTOs.DailyUsageDTO;
 import com.javacrud.javacrud.documents.Cycle;
 import com.javacrud.javacrud.documents.DailyUsage;
 import com.javacrud.javacrud.repositories.CycleRepository;
 import com.javacrud.javacrud.repositories.DailyUsageRepository;
 import com.javacrud.javacrud.repositories.UserRepository;
-import com.javacrud.javacrud.util.DailyUsageDTO;
 import com.javacrud.javacrud.util.DateManilpulation;
 
 @Service

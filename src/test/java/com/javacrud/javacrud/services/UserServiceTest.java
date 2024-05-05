@@ -13,12 +13,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-
+import com.javacrud.javacrud.DTOs.UserDTO;
 import com.javacrud.javacrud.documents.User;
 import com.javacrud.javacrud.repositories.CycleRepository;
 import com.javacrud.javacrud.repositories.DailyUsageRepository;
 import com.javacrud.javacrud.repositories.UserRepository;
-import com.javacrud.javacrud.util.UserDTO;
 
 public class UserServiceTest {
 

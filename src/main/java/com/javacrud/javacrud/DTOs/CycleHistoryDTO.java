@@ -1,14 +1,14 @@
-package com.javacrud.javacrud.util;
+package com.javacrud.javacrud.DTOs;
 
 import java.util.Date;
 
-public class CycleHistory {
+public class CycleHistoryDTO {
     private String id;
     private Date startDate;
     private Date endDate;
 
     // Constructor
-    public CycleHistory(String id, Date startDate, Date endDate) {
+    public CycleHistoryDTO(String id, Date startDate, Date endDate) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;

@@ -1,10 +1,10 @@
 package com.javacrud.javacrud.mockedObjects;
 
 import java.util.Date;
+import com.javacrud.javacrud.DTOs.DailyUsageDTO;
 import com.javacrud.javacrud.documents.Cycle;
 import com.javacrud.javacrud.documents.DailyUsage;
 import com.javacrud.javacrud.documents.User;
-import com.javacrud.javacrud.util.DailyUsageDTO;
 import com.javacrud.javacrud.util.DateManilpulation;
 
 public class MockedObjects {

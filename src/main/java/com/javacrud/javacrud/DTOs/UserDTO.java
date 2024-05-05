@@ -1,4 +1,4 @@
-package com.javacrud.javacrud.util;
+package com.javacrud.javacrud.DTOs;
 
 public class UserDTO {
     private String id;

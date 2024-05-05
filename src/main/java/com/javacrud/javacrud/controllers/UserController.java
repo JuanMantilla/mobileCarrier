@@ -2,11 +2,9 @@ package com.javacrud.javacrud.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.javacrud.javacrud.DTOs.UserDTO;
 import com.javacrud.javacrud.documents.User;
 import com.javacrud.javacrud.services.UserService;
-import com.javacrud.javacrud.util.UserDTO;
-
 import java.util.ArrayList;
 import java.util.List;
 

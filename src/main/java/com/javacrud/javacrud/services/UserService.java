@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
+import com.javacrud.javacrud.DTOs.UserDTO;
 import com.javacrud.javacrud.documents.Cycle;
 import com.javacrud.javacrud.documents.DailyUsage;
 import com.javacrud.javacrud.documents.User;
@@ -14,7 +14,6 @@ import com.javacrud.javacrud.repositories.CycleRepository;
 import com.javacrud.javacrud.repositories.DailyUsageRepository;
 import com.javacrud.javacrud.repositories.UserRepository;
 import com.javacrud.javacrud.util.DateManilpulation;
-import com.javacrud.javacrud.util.UserDTO;
 
 @Service
 public class UserService {
