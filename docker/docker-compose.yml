@@ -1,0 +1,38 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
+    container_name: mobilecarier-db
+    volumes:
+      - mobilecarier_volume:/data/db
+      - ./init_db_user.js:/docker-entrypoint-initdb.d/init_db_user.js:ro
+
+  mobilecarier:
+    image: juanmantilla/mobilecarier:1.0.0
+    ports:
+      - "8080:8080"
+    restart: always
+    container_name: mobilecarier-app
+    depends_on:
+      - mongo
+    environment:
+      - MONGODB_PORT=${MONGODB_PORT}
+      - MONGODB_URI=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:${MONGODB_PORT}/${MONGODB_DATABASE}
+      - LOGGING_LEVEL=${LOGGING_LEVEL}
+
+volumes:
+  mobilecarier_volume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/var/lib/mongo/data'
+    
+    

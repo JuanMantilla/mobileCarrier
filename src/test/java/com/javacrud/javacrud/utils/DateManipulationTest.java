@@ -18,17 +18,17 @@ public class DateManipulationTest {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2022, Calendar.JANUARY, 1, 12, 30, 45);
         Date date = calendar.getTime();
-        
+
         // Reset time to midnight
         Date result = DateManilpulation.resetTimeToMidnight(date);
-        
+
         // Create a date with expected midnight time
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         Date expected = calendar.getTime();
-        
+
         // Assert that the result matches the expected value
         assertEquals(expected, result);
     }

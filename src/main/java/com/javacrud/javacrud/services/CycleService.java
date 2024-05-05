@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.javacrud.javacrud.repositories.CycleRepository;
 import com.javacrud.javacrud.repositories.UserRepository;
 import com.javacrud.javacrud.util.CycleHistory;
-
+import com.javacrud.javacrud.util.DateManilpulation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +55,6 @@ public class CycleService {
     }
 
     public Cycle getLastCycleForUserAndMdn(String userId, String mdn) {
-        logger.info("Getting last Cycle for user ID [{}] and mdn [{}]", userId, mdn);
         try {
             userRepository.findById(userId).get();
         } catch (Exception e) {
@@ -63,7 +62,7 @@ public class CycleService {
                     "User with ID " + userId + " does not exist.");
         }
 
-        LocalDateTime currentDate = LocalDateTime.now();
+        Date currentDate = DateManilpulation.resetTimeToMidnight(new Date());
         Query lastCycleQuery = new Query();
 
         // Query to find the most current billing cycle
@@ -73,8 +72,8 @@ public class CycleService {
         lastCycleQuery.with(Sort.by(Sort.Direction.ASC, "startDate"));
 
         // Retrieve the current billing cycle
-        return this.mongoTemplate.findOne(lastCycleQuery, Cycle.class);
-
+        Cycle lastCycle = this.mongoTemplate.findOne(lastCycleQuery, Cycle.class);
+        return lastCycle;
     }
 
     /**
@@ -104,8 +103,6 @@ public class CycleService {
         }
 
         Cycle currentUserCycle = mostRecentCycle;
-
-
 
         Query dailyUsagesQuery = new Query();
 

@@ -46,3 +46,6 @@ gradletasknamecache
 
 # Logs
 mobileCarier.log*
+
+# Environment file
+docker/.env

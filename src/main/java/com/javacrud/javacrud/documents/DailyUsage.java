@@ -1,7 +1,7 @@
 package com.javacrud.javacrud.documents;
 
 import java.util.Date;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -19,6 +19,7 @@ public class DailyUsage {
     private Number usedInMb;
     private String nextCycleId;
 
+    @Autowired
     @DocumentReference
     private Cycle cycle;
 

@@ -2,11 +2,9 @@ package com.javacrud.javacrud.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
-
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,140 +22,149 @@ import com.javacrud.javacrud.util.DailyUsageDTO;
 
 class DailyUsageServiceTest {
 
-    @Mock
-    private DailyUsageRepository dailyUsageRepository;
+        @Mock
+        private DailyUsageRepository dailyUsageRepository;
 
-    @Mock
-    private CycleRepository cycleRepository;
+        @Mock
+        private CycleRepository cycleRepository;
 
-    @Mock
-    private UserRepository userRepository;
+        @Mock
+        private UserRepository userRepository;
 
-    @InjectMocks
-    private DailyUsageService dailyUsageService;
+        @InjectMocks
+        private DailyUsageService dailyUsageService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+        @BeforeEach
+        void setUp() {
+                MockitoAnnotations.openMocks(this);
+        }
 
-    @Test
-    void testCreateOrUpdate_ValidDailyUsage() {
-        // Mocking dependencies
-        String strToday = "2024-05-02";
-        String strYesterday = "2024-05-01";
-        String strCycleEndDate = "2024-06-01";
+        @Test
+        void testCreateOrUpdate_ValidDailyUsage() {
+                // Mocking dependencies
+                Date today = MockedObjects.getCurrentDate();
+                Date yesterday = MockedObjects.addDaysToDate(today, -1);
+                Date cycleEndDate = MockedObjects.addMonthToDate(today, 1);
+                User mockedUser = MockedObjects.getMockUser();
+                Cycle currentCycle = MockedObjects.getMockedCycle(today, cycleEndDate,
+                                mockedUser.getId());
+                DailyUsageDTO dailyUsageDTO = MockedObjects
+                                .getMockedDailyUsageDTO(mockedUser.getId(), today, 100, null);
+                DailyUsage previousUsage = MockedObjects.getMockedDailyUsage(mockedUser.getId(),
+                                yesterday, 100, null, currentCycle);
+                DailyUsage newDailyUsage = MockedObjects.getMockedDailyUsage(mockedUser.getId(),
+                                yesterday, 100, null, currentCycle);
 
-        Date today = MockedObjects.getMockDate(strToday);
-        Date yesterday = MockedObjects.getMockDate(strYesterday);
-        Date cycleEndDate = MockedObjects.getMockDate(strCycleEndDate);
-        User mockedUser = MockedObjects.getMockUser();
-        Cycle currentCycle = MockedObjects.getMockedCycle(today, cycleEndDate, mockedUser.getId());
-        DailyUsageDTO dailyUsageDTO =
-                MockedObjects.getMockedDailyUsageDTO(mockedUser.getId(), today, 100, null);
-        DailyUsage previousUsage = MockedObjects.getMockedDailyUsage(mockedUser.getId(), yesterday,
-        100, null, currentCycle);
-        DailyUsage newDailyUsage = MockedObjects.getMockedDailyUsage(mockedUser.getId(), yesterday,
-        100, null, currentCycle);
+                when(userRepository.findById(mockedUser.getId()))
+                                .thenReturn(java.util.Optional.of(mockedUser));
+                when(dailyUsageRepository.findByMdnAndUsageDateAndUserId(anyString(),
+                                any(Date.class), anyString())).thenReturn(null);
+                when(dailyUsageRepository.findByMdnAndUsageDateAndUserId(anyString(),
+                                any(Date.class), anyString())).thenReturn(previousUsage);
+                when(dailyUsageRepository.save(any(DailyUsage.class))).thenReturn(newDailyUsage);
 
-        when(userRepository.findById(mockedUser.getId()))
-                .thenReturn(java.util.Optional.of(mockedUser));
-        when(dailyUsageRepository.findByMdnAndUsageDateAndUserId(anyString(), any(Date.class),
-                anyString())).thenReturn(null);
-        when(dailyUsageRepository.findByMdnAndUsageDateAndUserId(anyString(), any(Date.class),
-                anyString())).thenReturn(previousUsage);
-        when(dailyUsageRepository.save(any(DailyUsage.class))).thenReturn(newDailyUsage);
+                // Calling the method under test
+                DailyUsage result = dailyUsageService.createOrUpdate(dailyUsageDTO);
 
-        // Calling the method under test
-        DailyUsage result = dailyUsageService.createOrUpdate(dailyUsageDTO);
+                // Assertions
+                assertNotNull(result);
+                assertEquals(newDailyUsage, result);
+        }
 
-        // Assertions
-        assertNotNull(result);
-        assertEquals(newDailyUsage, result);
-    }
+        @Test
+        void testCreateOrUpdate_ValidDailyUsageAddUsage() {
+                // Mocking dependencies
+                Date today = MockedObjects.getCurrentDate();
+                Date cycleEndDate = MockedObjects.addMonthToDate(today, 1);
 
-    @Test
-    void testCreateOrUpdate_ValidDailyUsageAddUsage() {
-        // Mocking dependencies
-        String strToday = "2024-05-02";
-        String strCycleEndDate = "2024-06-01";
+                User mockedUser = MockedObjects.getMockUser();
+                Cycle currentCycle = MockedObjects.getMockedCycle(today, cycleEndDate,
+                                mockedUser.getId());
+                DailyUsageDTO dailyUsageDTO = MockedObjects
+                                .getMockedDailyUsageDTO(mockedUser.getId(), today, 100, null);
+                DailyUsage dailyUsage = MockedObjects.getMockedDailyUsage(mockedUser.getId(), today,
+                                100, null, currentCycle);
+                when(userRepository.findById(mockedUser.getId()))
+                                .thenReturn(java.util.Optional.of(mockedUser));
+                when(dailyUsageRepository.findByMdnAndUsageDateAndUserId(anyString(),
+                                any(Date.class), anyString())).thenReturn(dailyUsage);
+                when(dailyUsageRepository.save(any(DailyUsage.class))).thenReturn(dailyUsage);
 
-        Date today = MockedObjects.getMockDate(strToday);
-        Date cycleEndDate = MockedObjects.getMockDate(strCycleEndDate);
-        User mockedUser = MockedObjects.getMockUser();
+                // Calling the method under test
+                DailyUsage result = dailyUsageService.createOrUpdate(dailyUsageDTO);
 
-        Cycle currentCycle = MockedObjects.getMockedCycle(today, cycleEndDate, mockedUser.getId());
-        DailyUsageDTO dailyUsageDTO = MockedObjects.getMockedDailyUsageDTO(mockedUser.getId(), today, 100,
-                null);
-        DailyUsage dailyUsage = MockedObjects.getMockedDailyUsage(mockedUser.getId(), today, 100, null,
-                currentCycle);
-        when(userRepository.findById(mockedUser.getId())).thenReturn(java.util.Optional.of(mockedUser));
-        when(dailyUsageRepository.findByMdnAndUsageDateAndUserId(anyString(), any(Date.class),
-                anyString())).thenReturn(dailyUsage);
-        when(dailyUsageRepository.save(any(DailyUsage.class))).thenReturn(dailyUsage);
+                // Assertions
+                assertNotNull(result);
+                assertEquals(dailyUsageDTO.getUsedInMb().longValue() + 100, result.getUsedInMb());
+        }
 
-        // Calling the method under test
-        DailyUsage result = dailyUsageService.createOrUpdate(dailyUsageDTO);
+        @Test
+        void testCreateOrUpdate_ValidDailyUsageLastDayOfCycle() {
+                // Mocking dependencies
+                Date today = MockedObjects.getCurrentDate();
+                Date currentCycleEndDate = MockedObjects.addMonthToDate(today, 1);
+                Date nextCycleStartDate = currentCycleEndDate;
+                Date nextCycleEndDate = MockedObjects.addMonthToDate(nextCycleStartDate, 1);
 
-        // Assertions
-        assertNotNull(result);
-        assertEquals(dailyUsageDTO.getUsedInMb().longValue() + 100, result.getUsedInMb());
-    }
+                User mockedUser = MockedObjects.getMockUser();
 
-    @Test
-    void testCreateOrUpdate_ValidDailyUsageLastDayOfCycle() {
-        // Mocking dependencies
-        String strToday = "2024-05-02";
-        String strCurrentCycleEndDate = strToday;
-        String strNextCycleStartDate = "2024-05-03";
-        String strNextCycleEndDate = "2024-06-03";
+                Cycle currentCycle = MockedObjects.getMockedCycle(today, currentCycleEndDate,
+                                mockedUser.getId());
+                Cycle nextCycle = MockedObjects.getMockedCycle(nextCycleStartDate, nextCycleEndDate,
+                                mockedUser.getId());
+                DailyUsageDTO dailyUsageDTO = MockedObjects
+                                .getMockedDailyUsageDTO(mockedUser.getId(), currentCycle.getEndDate(), 100, null);
+                DailyUsage currentDailyUsage = MockedObjects.getMockedDailyUsage(mockedUser.getId(),
+                                today, 100, null, currentCycle);
 
-        Date today = MockedObjects.getMockDate(strToday);
-        Date currentCycleEndDate = MockedObjects.getMockDate(strCurrentCycleEndDate);
-        Date nextCycleStartDate = MockedObjects.getMockDate(strNextCycleStartDate);
-        Date nextCycleEndDate = MockedObjects.getMockDate(strNextCycleEndDate);
-        User mockedUser = MockedObjects.getMockUser();
+                when(userRepository.findById(mockedUser.getId()))
+                                .thenReturn(java.util.Optional.of(mockedUser));
+                when(dailyUsageRepository.findByMdnAndUsageDateAndUserId(anyString(),
+                                any(Date.class), anyString())).thenReturn(currentDailyUsage);
+                when(cycleRepository.save(any(Cycle.class))).thenReturn(nextCycle);
 
-        Cycle currentCycle = MockedObjects.getMockedCycle(today, currentCycleEndDate, mockedUser.getId());
-        Cycle nextCycle = MockedObjects.getMockedCycle(nextCycleStartDate, nextCycleEndDate, mockedUser.getId());
-        DailyUsageDTO dailyUsageDTO = MockedObjects.getMockedDailyUsageDTO(mockedUser.getId(), today, 100,
-                null);
-        DailyUsage currentDailyUsage = MockedObjects.getMockedDailyUsage(mockedUser.getId(), today, 100, null,
-                currentCycle);
+                when(dailyUsageRepository.save(any(DailyUsage.class)))
+                                .thenReturn(currentDailyUsage);
 
-        when(userRepository.findById(mockedUser.getId())).thenReturn(java.util.Optional.of(mockedUser));
-        when(dailyUsageRepository.findByMdnAndUsageDateAndUserId(anyString(), any(Date.class),
-                anyString())).thenReturn(currentDailyUsage);
+                // Calling the method under test
+                DailyUsage result = dailyUsageService.createOrUpdate(dailyUsageDTO);
 
-        when(cycleRepository.save(any(Cycle.class))).thenReturn(nextCycle);
+                // Assertions
+                assertNotNull(result);
+                assertEquals(dailyUsageDTO.getUsedInMb().longValue() + 100, result.getUsedInMb());
+                assertEquals(nextCycle.getId(), result.getNextCycleId());
+        }
 
-        when(dailyUsageRepository.save(any(DailyUsage.class))).thenReturn(currentDailyUsage);
+        @Test
+        void testCreateOrUpdate_UserNotFound() {
+                // Mocking dependencies
+                Date today = MockedObjects.getCurrentDate();
+                DailyUsageDTO dailyUsageDTO =
+                                MockedObjects.getMockedDailyUsageDTO("user123", today, 100, null);
+                User mockedUser = MockedObjects.getMockUser();
+                when(userRepository.findById(mockedUser.getId()))
+                                .thenReturn(java.util.Optional.empty());
 
-        // Calling the method under test
-        DailyUsage result = dailyUsageService.createOrUpdate(dailyUsageDTO);
+                // Calling the method under test and asserting the exception
+                assertThrows(ResponseStatusException.class,
+                                () -> dailyUsageService.createOrUpdate(dailyUsageDTO));
+        }
 
-        // Assertions
-        assertNotNull(result);
-        assertEquals(dailyUsageDTO.getUsedInMb().longValue() + 100, result.getUsedInMb());
-        assertEquals(nextCycle.getId(), currentDailyUsage.getNextCycleId());
-    }
+        @Test
+        void testListReturnsExpectedList() {
+                // Arrange
+                DailyUsage usage1 = MockedObjects.getMockedDailyUsage(null, null, null, null, null);
+                DailyUsage usage2 = MockedObjects.getMockedDailyUsage(null, null, null, null, null);
+                List<DailyUsage> expectedList = Arrays.asList(usage1, usage2);
 
-    @Test
-    void testCreateOrUpdate_UserNotFound() {
-        // Mocking dependencies
-        String strToday = "2024-05-02";
+                // Mock the repository behavior
+                when(dailyUsageRepository.findAll()).thenReturn(expectedList);
 
-        Date today = MockedObjects.getMockDate(strToday);
-        DailyUsageDTO dailyUsageDTO = MockedObjects.getMockedDailyUsageDTO("user123", today, 100,
-        null);
-        User mockedUser = MockedObjects.getMockUser();
-        when(userRepository.findById(mockedUser.getId())).thenReturn(java.util.Optional.empty());
+                // Act
+                List<DailyUsage> actualList = dailyUsageService.list();
 
-        // Calling the method under test and asserting the exception
-        assertThrows(ResponseStatusException.class,
-                () -> dailyUsageService.createOrUpdate(dailyUsageDTO));
-    }
-
-    // Add more test cases as needed
+                // Assert
+                assertEquals(expectedList, actualList, "Returned list should match the expected list");
+        }
 }
 

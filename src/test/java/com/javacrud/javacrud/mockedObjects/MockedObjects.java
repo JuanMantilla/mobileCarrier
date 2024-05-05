@@ -1,13 +1,11 @@
 package com.javacrud.javacrud.mockedObjects;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.javacrud.javacrud.documents.Cycle;
 import com.javacrud.javacrud.documents.DailyUsage;
 import com.javacrud.javacrud.documents.User;
 import com.javacrud.javacrud.util.DailyUsageDTO;
+import com.javacrud.javacrud.util.DateManilpulation;
 
 public class MockedObjects {
 
@@ -17,16 +15,16 @@ public class MockedObjects {
         return mockedUser;
     }
 
-    public static Date getMockDate(String date){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date mockedDate;
-        try {
-            mockedDate = dateFormat.parse(date);
-            return mockedDate;
-        } catch (ParseException e) {
-            System.err.println("Error parsing date");
-            return null;
-        }
+    public static Date getCurrentDate() {
+        return DateManilpulation.resetTimeToMidnight(new Date());
+    }
+
+    public static Date addMonthToDate(Date date, int months) {
+        return DateManilpulation.addMonthsToDate(date, months);
+    }
+
+    public static Date addDaysToDate(Date date, int days) {
+        return DateManilpulation.addDaysToDate(date, days);
     }
 
     public static String generateMockedMdn() {
