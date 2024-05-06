@@ -37,7 +37,7 @@ This Mobile Carrier app (backend) is a backend application that allows you to cr
 ### Installation
 
 #### Using docker
-- Go to the docker directory and use "docker compose up". This will create the Mongo DB and Mobile carieer app containers, it will also seed the DB with initial data.
+- Go to the docker directory and use "docker compose up". This will pull the latest Mongo DB and Mogbile carrier app 1.0.0 images from docker hub and create the Mongo DB and Mobile carieer app containers. It will also seed the DB with initial data.
 
 #### Locally
 - mvn pacakge
