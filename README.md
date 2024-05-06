@@ -9,7 +9,7 @@ This backend app allows you to create users, daily usages with mb used and keep 
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Documentation](#documentation)
-- [Thought process](#thought process)
+- [Thought process](#thought_process)
 - [Improvements](#improvements)
 - [License](#license)
 
