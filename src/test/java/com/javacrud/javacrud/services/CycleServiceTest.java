@@ -76,14 +76,11 @@ public class CycleServiceTest {
     public void testGetLastCycleForUserAndMdn() {
         // Mocking dependencies
         Date today = MockedObjects.getCurrentDate();
-
+        System.out.println("testGetLastCycleForUserAndMdn");
         User mockedUser = MockedObjects.getMockUser();
         Cycle cycle = MockedObjects.getMockedCycle(today, mockedUser.getId());
         Query lastCycleQuery = new Query();
-        System.out.println(today);
-        System.out.println(today);
-        System.out.println(today);
-        System.out.println(today);
+
         lastCycleQuery.addCriteria(Criteria.where("userId").is(mockedUser.getId()).and("startDate")
                 .lte(today).and("mdn").is(cycle.getMdn()));
         lastCycleQuery.with(Sort.by(Sort.Direction.DESC, "endDate"));

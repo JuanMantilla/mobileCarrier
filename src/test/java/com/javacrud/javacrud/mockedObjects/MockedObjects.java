@@ -16,7 +16,7 @@ public class MockedObjects {
     }
 
     public static Date getCurrentDate() {
-        return DateManilpulation.resetTimeToMidnight(DateManilpulation.adjustTimezone(new Date()));
+        return DateManilpulation.resetTimeToMidnight(new Date());
     }
 
     public static Date addMonthToDate(Date date, int months) {
