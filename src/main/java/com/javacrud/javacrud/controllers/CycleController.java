@@ -26,16 +26,30 @@ public class CycleController {
         this.cycleService = cycleService;
     }
     
+    /**
+     * Create a new cycle
+     * @param cycle
+     * @return Created cycle
+     */
     @PostMapping
     public Cycle createCycle(@RequestBody Cycle cycle) {
         return cycleService.create(cycle);
     }
 
+    /**
+     * Get all cycles
+     * @return List of cycles
+     */
     @GetMapping
     public List<Cycle> getCycles() {
         return cycleService.list();
     }
 
+    /**
+     * Get cycle by id
+     * @param id
+     * @return Cycle
+     */
     @GetMapping("/{userId}/{mdn}")
     public List<DateUsagePairDTO> getCurrentCycleDailyUsage(@PathVariable String userId, @PathVariable String mdn) {
         List<DailyUsage> dailyUsages= cycleService.getCurrentCycleDailyUsage(userId, mdn);
@@ -48,6 +62,12 @@ public class CycleController {
         return payload;
     }
 
+    /**
+     * Get cycle history
+     * @param userId
+     * @param mdn
+     * @return List of cycle history
+     */
     @GetMapping("/history/{userId}/{mdn}")
     public List<CycleHistoryDTO> getCycleHistory(@PathVariable String userId, @PathVariable String mdn) {
         return cycleService.getCycleHistory(userId, mdn);

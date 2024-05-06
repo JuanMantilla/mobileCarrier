@@ -5,6 +5,13 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class DateManilpulation {
+
+    /**
+     * Reset the time of a date to midnight.
+     *
+     * @param date The date to reset.
+     * @return The date with the time reset to midnight.
+     */
     public static Date resetTimeToMidnight(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -15,6 +22,13 @@ public class DateManilpulation {
         return calendar.getTime();
     }
 
+    /**
+     * Add months to a date.
+     *
+     * @param date The date to add months to.
+     * @param months The number of months to add.
+     * @return The date with the months added.
+     */
     public static Date addMonthsToDate(Date date, int months) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -22,6 +36,13 @@ public class DateManilpulation {
         return calendar.getTime();
     }
 
+    /**
+     * Add days to a date.
+     *
+     * @param date The date to add days to.
+     * @param days The number of days to add.
+     * @return The date with the days added.
+     */
     public static Date addDaysToDate(Date date, int days) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -29,6 +50,13 @@ public class DateManilpulation {
         return calendar.getTime();
     }
 
+    /**
+     * Calculate the number of days between two dates.
+     *
+     * @param startDate The start date.
+     * @param endDate The end date.
+     * @return The number of days between the two dates.
+     */
     public static int daysBetweenDates(Date startDate, Date endDate) {
         Calendar start = Calendar.getInstance();
         start.setTime(startDate);
@@ -37,6 +65,12 @@ public class DateManilpulation {
         return (int) ((end.getTimeInMillis() - start.getTimeInMillis()) / (1000 * 60 * 60 * 24));
     }
 
+    /**
+     * Adjust the timezone of a date to UTC.
+     *
+     * @param date The date to adjust.
+     * @return The date with the timezone adjusted to UTC.
+     */
     public static Date adjustTimezone(Date date) {
         // Set the desired output timezone, e.g., UTC
         TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
@@ -51,6 +85,12 @@ public class DateManilpulation {
         return new Date(date.getTime() + offset);
     }
 
+    /**
+     * Calculate the number of days until the end of the month.
+     *
+     * @param date The date to calculate the days until the end of the month.
+     * @return The number of days until the end of the month.
+     */
     public static int daysUntilEndOfMonth(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

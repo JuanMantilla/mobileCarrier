@@ -25,12 +25,22 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Create a new user
+     * @param user
+     * @return Created user
+     */
     @PostMapping
     public UserDTO createUser(@RequestBody User user) {
         this.userService.create(user);
         return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
     }
 
+    /**
+     * Get user by id
+     * @param userId
+     * @return User
+     */
     @GetMapping("/{userId}")
     public UserDTO getUser(@PathVariable String userId) {
         User user = this.userService.get(userId);
@@ -38,6 +48,10 @@ public class UserController {
         return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
     }
 
+    /**
+     * Get all users
+     * @return List of users
+     */
     @GetMapping
     public List<UserDTO> getUsers() {
         List<User> users = this.userService.list();
@@ -50,6 +64,12 @@ public class UserController {
         return payload;
     }
 
+    /**
+     * Update user
+     * @param userId
+     * @param userDto
+     * @return Updated user
+     */
     @PatchMapping(value = "/{userId}")
     public UserDTO updateUser(@PathVariable String userId, @RequestBody UserDTO userDto) {
         User response = userService.updateUser(userId, userDto);

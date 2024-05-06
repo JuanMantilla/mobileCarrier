@@ -24,7 +24,7 @@ public class DailyUsage {
     @DocumentReference
     private Cycle cycle;
 
-    // Constructor
+    // Constructor for DailyUsage
     public DailyUsage(String mdn, String userId, Date usageDate, Number usedInMb, String nextCycleId, Cycle cycle) {
         this.mdn = mdn;
         this.userId = userId;
@@ -34,54 +34,67 @@ public class DailyUsage {
         this.cycle = cycle;
     }
 
+    // Getter for id (MongoDB will automatically generate it)
     public String getId() {
         return id;
     }
 
+    // Setter for id
     public String getMdn() {
         return this.mdn;
     }
 
+    // Getter for mdn
     public void setMdn(String mdn) {
         this.mdn = mdn;
     }
 
+    // Setter for userId
     public String getUserId() {
         return this.userId;
     }
 
+    // Getter for userId
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
+    // Setter for nextCycleId
     public void setNextCycleId(String nextCycleId) {
         this.nextCycleId = nextCycleId;
     }
 
+    // Getter for nextCycleId
     public String getNextCycleId() {
         return this.nextCycleId;
     }
 
+    // Setter for usageDate
     public Date getUsageDate() {
         return this.usageDate;
     }
 
+    // Getter for usageDate
     public void setUsageDate(Date usageDate) {
         this.usageDate = usageDate;
     }
 
+    // Setter for usedInMb
     public Number getUsedInMb() {
         return this.usedInMb;
     }
 
+    // Getter for usedInMb
     public void setUsedInMb(Number usedInMb) {
         this.usedInMb = usedInMb;
     }
 
+    // Setter for cycle
     public void setCycle(Cycle cycle) {
         this.cycle = cycle;
     }
 
+    // Getter for cycle
     public Cycle getCycle() {
         return this.cycle;
     }

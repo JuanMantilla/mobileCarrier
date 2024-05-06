@@ -62,15 +62,33 @@ public class UserService {
         return newUser;
     }
 
+    /**
+     * Get a user by ID.
+     *
+     * @param id The ID of the user to retrieve.
+     * @return The user with the specified ID.
+     */
     public User get(String id) {
         User user = this.userRepository.findById(id).orElse(null);
         return user;
     }
 
+    /**
+     * Get all users.
+     *
+     * @return A list of all users.
+     */
     public List<User> list() {
         return this.userRepository.findAll();
     }
 
+    /**
+     * Update a user's information.
+     *
+     * @param userId The ID of the user to update.
+     * @param user The updated user information.
+     * @return The updated user.
+     */
     public User updateUser(String userId, UserDTO user) {
         try {
             User userDoc = userRepository.findById(userId).get();

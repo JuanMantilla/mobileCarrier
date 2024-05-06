@@ -39,6 +39,13 @@ public class CycleService {
         this.mongoTemplate = mongoTemplate;
     }
 
+    /**
+     * Create a new billing cycle.
+     *
+     * @param cycle The billing cycle to create.
+     * @return The created billing cycle.
+     * @throws ResponseStatusException if the user does not exist.
+     */
     public Cycle create(Cycle cycle) {
         // Validate user existence
         if (!this.userRepository.existsById(cycle.getUserId())) {
@@ -53,6 +60,14 @@ public class CycleService {
         return this.cycleRepository.findAll();
     }
 
+    /**
+     * Retrieves the most recent billing cycle for a user and mobile device number.
+     *
+     * @param userId The unique identifier for the user.
+     * @param mdn The mobile device number associated with the user.
+     * @return The most recent billing cycle.
+     * @throws ResponseStatusException if the user does not exist.
+     */
     public Cycle getLastCycleForUserAndMdn(String userId, String mdn) {
         try {
             userRepository.findById(userId).get();
@@ -116,6 +131,13 @@ public class CycleService {
         return dailyUsages;
     }
 
+    /**
+     * Retrieves the billing cycle history for a user and mobile device number.
+     *
+     * @param userId The unique identifier for the user.
+     * @param mdn The mobile device number associated with the user.
+     * @return A list of CycleHistoryDTO objects representing the billing cycle history.
+     */
     public List<CycleHistoryDTO> getCycleHistory(String userId, String mdn) {
         List<Cycle> cycles = this.cycleRepository.findByUserIdAndMdn(userId, mdn);
         List<CycleHistoryDTO> payload = new ArrayList<>();

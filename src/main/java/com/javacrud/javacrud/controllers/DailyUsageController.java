@@ -17,6 +17,11 @@ public class DailyUsageController {
         this.dailyUsageService = dailyUsageService;
     }
 
+    /**
+     * Create a new daily usage
+     * @param dailyUsage
+     * @return Created daily usage
+     */
     @PutMapping
     public DailyUsageDTO createDailyUsage(@RequestBody DailyUsageDTO dailyUsage) {
         DailyUsage createdDailyUsage = dailyUsageService.createOrUpdate(dailyUsage);
@@ -29,6 +34,10 @@ public class DailyUsageController {
         );
     }
 
+    /**
+     * Get all daily usages
+     * @return List of daily usages
+     */
     @GetMapping
     public List<DailyUsage> getDailyUsages() {
         return dailyUsageService.list();

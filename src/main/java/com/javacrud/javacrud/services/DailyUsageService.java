@@ -121,6 +121,10 @@ public class DailyUsageService {
         }
     }
 
+     /**
+     * Get all daily usages
+     * @return List of daily usages
+     */
     public List<DailyUsage> list() {
         return this.dailyUsageRepository.findAll();
     }

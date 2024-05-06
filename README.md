@@ -45,6 +45,7 @@ This Mobile Carrier app (backend) is a backend application that allows you to cr
 - mvn clean install
 - mvn spring-boot:run (This will seed the DB with initial data)
 
+Once installed, you can use the REST API request to interact with the app. If you want to see the MDN of a user, I suggest listing all the cycles and getting the MDN and user IDs from there.
 ## Documentation
 ### Documentation diagrams
  Can be found in the Documentation folder in the root of the app

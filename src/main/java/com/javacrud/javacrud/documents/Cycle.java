@@ -23,7 +23,7 @@ public class Cycle {
 
     private int daysInACycle = 30;
 
-
+    // Constructor for Cycle
     public Cycle(String mdn, Date startDate, String userId) {
         this.startDate = startDate;
         this.mdn = mdn;
@@ -40,6 +40,7 @@ public class Cycle {
         return id;
     }
 
+    // Setter for id
     public String setId(String id) {
         return this.id = id;
     }
